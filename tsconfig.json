@@ -21,6 +21,6 @@
       "~/*": ["./src/*"]
     }
   },
-  "files": ["./.eslintrc.cjs"],
+  "files": ["./.eslintrc.cjs", "./.prettierrc.cjs"],
   "include": ["src", "./*.d.ts"]
 }
