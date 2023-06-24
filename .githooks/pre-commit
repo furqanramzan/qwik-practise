@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+echo "-----------------------------"
+echo "| Running Format Checking |"
+echo "-----------------------------"
+sh -c "pnpm run fmt.check"
+
+echo "-----------------------------"
+echo "| Running Lint Checking |"
+echo "-----------------------------"
+sh -c "pnpm lint"
+
+echo "-----------------------------"
+echo "| Running Type Checking |"
+echo "-----------------------------"
+sh -c "pnpm build.types"
