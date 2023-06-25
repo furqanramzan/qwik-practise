@@ -1,8 +1,9 @@
 import { component$ } from "@builder.io/qwik";
 import { routeLoader$ } from "@builder.io/qwik-city";
-import { drizzle, users } from "~/drizzle";
 import { Link } from "@builder.io/qwik-city";
+import { drizzle, users } from "~/drizzle";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import UserItem from "~/components/UserItem";
 
 export const userList = routeLoader$(() => {
   return drizzle.select().from(users);
@@ -39,26 +40,21 @@ export default component$(() => {
                     <th scope="col" class="px-4 py-3">
                       Email
                     </th>
+                    <th scope="col" class="px-4 py-3">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.value.length > 0 ? (
                     users.value.map((user) => (
-                      <tr key={user.id} class="border-b dark:border-gray-700">
-                        <th
-                          scope="row"
-                          class="whitespace-nowrap px-4 py-3 font-medium text-gray-900 dark:text-white"
-                        >
-                          {user.name}
-                        </th>
-                        <td class="px-4 py-3">{user.email}</td>
-                      </tr>
+                      <UserItem key={user.id} user={user} />
                     ))
                   ) : (
                     <th
                       scope="row"
                       class="whitespace-nowrap px-4 py-3 text-center font-medium text-gray-900 dark:text-white"
-                      colSpan={2}
+                      colSpan={3}
                     >
                       No user found
                     </th>

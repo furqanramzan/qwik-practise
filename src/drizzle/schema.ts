@@ -1,3 +1,4 @@
+import type { InferModel } from "drizzle-orm";
 import { mysqlTable, serial, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
@@ -7,3 +8,5 @@ export const users = mysqlTable("users", {
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
 });
+
+export type User = InferModel<typeof users, "select">;
