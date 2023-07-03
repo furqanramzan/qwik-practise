@@ -7,6 +7,7 @@ const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
 const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 const region = process.env.S3_REGION;
 const Bucket = process.env.S3_BUCKET;
+const directory = process.env.S3_DIRECTORY;
 
 function getClient() {
   if (accessKeyId && secretAccessKey) {
@@ -31,7 +32,7 @@ export async function store(file: File) {
       params: {
         ACL: "public-read",
         Bucket,
-        Key: `${Date.now()}-${file.name}`,
+        Key: `${directory}/${Date.now()}-${file.name}`,
         Body: file as unknown as Buffer,
       },
     }).done();
@@ -44,7 +45,7 @@ export async function store(file: File) {
 
 export async function destroy(key: string) {
   const client = getClient();
-  key = key.split("/").at(-1) as string;
+  key = key.slice(key.indexOf(".com") + 5);
   const command = new DeleteObjectCommand({
     Bucket,
     Key: key,
