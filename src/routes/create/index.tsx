@@ -11,11 +11,11 @@ import {
 import { drizzle, users } from "~/drizzle";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import AppInput from "~/components/AppInput";
-import { upload } from "~/utils/s-three";
+import { store } from "~/utils/s-three";
 
 export const userCreate = routeAction$(
   async (data) => {
-    const { data: file } = await upload(data.avatar);
+    const { data: file } = await store(data.avatar);
     if (!file?.Location) {
       return { success: false };
     }
