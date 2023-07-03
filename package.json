@@ -23,6 +23,8 @@
     "migration": "drizzle-kit generate:mysql --schema=./src/drizzle/schema.ts --out=./src/drizzle/migrations"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.363.0",
+    "@aws-sdk/lib-storage": "^3.363.0",
     "@builder.io/qwik": "^1.1.5",
     "@builder.io/qwik-city": "^1.1.5",
     "@planetscale/database": "^1.7.0",

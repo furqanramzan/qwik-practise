@@ -5,6 +5,7 @@ export const users = mysqlTable("users", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
   email: varchar("email", { length: 256 }),
+  avatar: varchar("avatar", { length: 256 }),
   createdAt: timestamp("created_at"),
   updatedAt: timestamp("updated_at"),
 });

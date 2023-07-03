@@ -1,3 +1,4 @@
+import { File } from "buffer";
 import { component$ } from "@builder.io/qwik";
 import {
   Form,
@@ -5,15 +6,20 @@ import {
   useNavigate,
   z,
   zod$,
+  Link,
 } from "@builder.io/qwik-city";
 import { drizzle, users } from "~/drizzle";
-import { Link } from "@builder.io/qwik-city";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import AppInput from "~/components/AppInput";
+import { upload } from "~/utils/s-three";
 
 export const userCreate = routeAction$(
   async (data) => {
-    await drizzle.insert(users).values(data);
+    const { data: file } = await upload(data.avatar);
+    if (!file?.Location) {
+      return { success: false };
+    }
+    await drizzle.insert(users).values({ ...data, avatar: file?.Location });
     return {
       success: true,
     };
@@ -21,6 +27,7 @@ export const userCreate = routeAction$(
   zod$({
     name: z.string(),
     email: z.string().email(),
+    avatar: z.instanceof(File),
   })
 );
 
@@ -44,11 +51,25 @@ export default component$(() => {
             }}
           >
             <div class="grid gap-4">
+              {action.value?.success === false && (
+                <div
+                  class="mb-4 rounded-lg bg-red-50 p-4 text-sm text-red-800 dark:bg-gray-800 dark:text-red-400"
+                  role="alert"
+                >
+                  <span class="font-medium">Somthing went wrong!</span>
+                  Contact support if the problem persists.
+                </div>
+              )}
               <AppInput name="name" errors={action.value?.fieldErrors?.name} />
               <AppInput
                 name="email"
                 type="email"
                 errors={action.value?.fieldErrors?.email}
+              />
+              <AppInput
+                name="avatar"
+                type="file"
+                errors={action.value?.fieldErrors?.avatar}
               />
               <div class="flex w-full flex-col">
                 <div class="flex gap-x-5">
